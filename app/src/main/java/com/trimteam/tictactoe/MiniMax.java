@@ -21,8 +21,8 @@ public class MiniMax  {
         }
 
         /** Get next best move for computer. Return int[2] of {row, col} */
-        int[] move() {
-            int[] result = minimax(2, mySeed); // depth, max turn
+        int[] move(int depth) {
+            int[] result = minimax(depth, mySeed); // depth, max turn
             return new int[] {result[1], result[2]};   // row, col
         }
 

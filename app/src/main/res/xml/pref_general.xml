@@ -1,0 +1,24 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <CheckBoxPreference
+        android:key="ordem_jogar"
+        android:title="@string/pref_titulo_ordem_jogar"
+        android:summary="@string/pref_desc_ordem_jogar"
+        android:defaultValue="true"
+        ></CheckBoxPreference>
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/pref_lista_dificuldades"
+        android:entryValues="@array/pref_valores_lista_dificuldades"
+        android:key="nivel_dificuldade"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/dificuldade" />
+
+</PreferenceScreen>

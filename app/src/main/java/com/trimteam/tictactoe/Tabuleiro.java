@@ -104,4 +104,10 @@ public class Tabuleiro {
     public int[][] getTabuleiro(){
         return tabuleiro;
     }
+    public int getJogador(){
+        return jogador;
+    }
+    public boolean jogadaValida(int lin, int col) {
+        return tabuleiro[lin][col] == VAZIA;
+    }
 }
