@@ -95,22 +95,45 @@ public class TabuleiroDeJogo extends View {
         if(estado==Estado.JOGADOR_A_JOGAR){
             jogadasValidas = tabuleiro.jogadas();
         }
-        paint.setColor(Color.GRAY);
-        canvas.drawRect(0,0,3*(3 + dimQuadrado),(3+ dimQuadrado)*3,paint);
+        //paint.setColor(Color.GRAY);
+        //canvas.drawRect(0,0,3*(3 + dimQuadrado),(3+ dimQuadrado)*3,paint);
         for (int linha = 0 ; linha< nrQuadrados;linha++){
             for(int coluna = 0; coluna<nrQuadrados;coluna++){
                 int a = coluna * dimQuadrado;
                 int b = linha*dimQuadrado;
                 paint.setColor(Color.WHITE);
                 paint.setStrokeWidth(3);
-                canvas.drawRect(a,b,a+dimQuadrado,b+dimQuadrado,paint);
+                int top = 0, left = 0, right =0,  down = 0;
+                if(coluna == 0){
+                    left = 3;
+
+                }
+
+                if(coluna == 2){
+                    right = 3;
+                }
+                if (linha == 0) top = 3;
+                if (linha ==2) down = 3;
+
+                canvas.drawRect(a+left,b+top,a+dimQuadrado-right,b+dimQuadrado-down,paint);
                 paint.setStrokeWidth(0);
-                paint.setColor(Color.rgb(123,167,123));
+                paint.setColor(Color.parseColor("#ff303030"));
                 canvas.drawRect(a+3,b+3,a+dimQuadrado-3,b+dimQuadrado-3,paint);
 
                 if(!tabuleiro.isVazia(linha,coluna)){
-                    paint.setColor(tabuleiro.isX(linha,coluna)? Color.LTGRAY : Color.BLACK);
-                    canvas.drawCircle(a+(dimQuadrado/2),b+(dimQuadrado/2),dimQuadrado*0.45f,paint);
+
+
+                    paint.setColor(tabuleiro.isX(linha,coluna)? Color.LTGRAY : Color.rgb(123,167,123));
+                    if(tabuleiro.isX(linha,coluna)){
+                        paint.setStrokeWidth(10);
+                        canvas.drawLine(a+3,b+3,a+dimQuadrado-3,b+dimQuadrado-3,paint);
+                        canvas.drawLine(a+dimQuadrado+3,b+3,a-3,b-3+dimQuadrado,paint);
+                    }else{
+                        canvas.drawCircle(a+(dimQuadrado/2),b+(dimQuadrado/2),dimQuadrado*0.45f,paint);
+                        paint.setColor(Color.parseColor("#ff303030"));
+                        canvas.drawCircle(a+(dimQuadrado/2),b+(dimQuadrado/2),dimQuadrado*0.35f,paint);
+                    }
+                    //canvas.drawCircle(a+(dimQuadrado/2),b+(dimQuadrado/2),dimQuadrado*0.45f,paint);
                 }
 
             }
@@ -193,9 +216,17 @@ public class TabuleiroDeJogo extends View {
             progresso.hide();
             int vencedor = tabuleiro.fimDoJogo();
             String message = "";
-            if (vencedor == 0) message = "Empate";
-            else if (vencedor == jogador) message = "Parabéns venceste";
-            else message = "O computador venceu";
+            if (vencedor == 0){
+                message = "Empate";
+            }
+            else if (vencedor == jogador) {
+                message = "Parabéns venceste";
+                actividade.increaseUserVic();
+            }
+            else {
+                message = "O computador venceu";
+                actividade.increaseCpuVic();
+            }
             fimDoJogo = builder.create();
             fimDoJogo.setMessage(message);
             fimDoJogo.setOnDismissListener(new DialogInterface.OnDismissListener() {

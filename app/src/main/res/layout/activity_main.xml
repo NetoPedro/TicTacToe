@@ -22,13 +22,6 @@
         android:layout_marginTop="57dp"
         android:layout_weight="10" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/musicMain"
-        android:src="@drawable/unmute"
-        android:layout_gravity="top"
-        android:layout_weight="2" />
 
 
     <LinearLayout

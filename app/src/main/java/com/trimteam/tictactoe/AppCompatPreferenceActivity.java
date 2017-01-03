@@ -1,8 +1,13 @@
 package com.trimteam.tictactoe;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -69,9 +74,26 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
-            if(MainActivity.musicaOn) MainActivity.mServ.resumeMusic();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        boolean screenOn;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            screenOn = pm.isInteractive();
+        } else {
+            screenOn = pm.isScreenOn();
         }
+
+        if (screenOn) {
+            if (MainActivity.mServ != null) {
+                if (MainActivity.mServ.mPlayer == null) {
+                    MainActivity.mServ.startMusic();
+                }
+                if(MainActivity.musicaOn){
+                    MainActivity.mServ.resumeMusic();}
+                else MainActivity.mServ.pauseMusic();
+            }
+        }
+        MainActivity.outraAtividade = true;
         getDelegate().onPostResume();
     }
 
@@ -90,6 +112,8 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        MainActivity.musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
         if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
             if(!MainActivity.musicaOn)
                 MainActivity.mServ.pauseMusic();
@@ -101,6 +125,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
+        MainActivity.outraAtividade = false;
 
     }
     @Override
@@ -110,6 +135,14 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
             if(MainActivity.musicaOn)
                 MainActivity.mServ.pauseMusic();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (MainActivity.mServ != null)
+            if (MainActivity.mServ .mPlayer == null)
+                MainActivity.mServ .pauseMusic();
     }
 
     public void invalidateOptionsMenu() {

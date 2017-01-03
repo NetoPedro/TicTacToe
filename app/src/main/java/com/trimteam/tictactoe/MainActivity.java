@@ -4,10 +4,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.icu.util.TimeUnit;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
                         mServ.pauseMusic();
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-                        mServ.mPlayer.setVolume(20,20);
+                        mServ.mPlayer.setVolume(5,5);
                     } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                        mServ.resumeMusic();
-                        mServ.mPlayer.setVolume(100,100);
+                        if (musicaOn ){
+                            mServ.resumeMusic();
+                             mServ.mPlayer.setVolume(20,20);
+                        }
                     }
                 }
 
@@ -55,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
 
     }
 
@@ -74,15 +81,15 @@ public class MainActivity extends AppCompatActivity {
                 // Request permanent focus.
                 AudioManager.AUDIOFOCUS_GAIN);
 
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED ) {
             // Start playback
             if(mServ == null ) {
                 this.doBindService();
                 music = new Intent(this, MusicService.class);
-                startService(music);
+                if (musicaOn)startService(music);
             }
             else if(mServ.mPlayer == null){
-                    mServ.startMusic();
+                    if(musicaOn)mServ.startMusic();
 
             }
                if(mServ != null ) if (mServ.mPlayer!= null){
@@ -91,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                }
 
 
-            musicMain = (ImageView) findViewById(R.id.musicMain);
-            musicMain.setOnClickListener(new View.OnClickListener() {
+            //musicMain = (ImageView) findViewById(R.id.musicMain);
+            /*musicMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-            });
+            });*/
         }
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,11 +147,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mServ != null)
+            if (mServ.mPlayer == null) {
+                mServ.pauseMusic();
+            }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        boolean screenOn;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            screenOn = pm.isInteractive();
+        } else {
+            screenOn = pm.isScreenOn();
+        }
+
+        if (screenOn) {
+            if (mServ != null) {
+                if (mServ.mPlayer == null) {
+                    mServ.startMusic();
+                }
+                if(musicaOn){
+                    mServ.resumeMusic();}
+                else mServ.pauseMusic();
+            }
+        }
+    }
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mServ.pauseMusic();
          doUnbindService();
+
          stopService(music);
     }
 
@@ -163,8 +207,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        mServ.pauseMusic();
         doUnbindService();
-        //stopService(music);
+
         am.abandonAudioFocus(afChangeListener);
 
     }

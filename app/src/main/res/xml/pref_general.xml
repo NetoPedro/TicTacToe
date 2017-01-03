@@ -4,6 +4,12 @@
 
 
     <CheckBoxPreference
+        android:key="som_ligado"
+        android:title="Som"
+        android:summary="Som Ligado"
+        android:defaultValue="true"
+        ></CheckBoxPreference>
+    <CheckBoxPreference
         android:key="ordem_jogar"
         android:title="@string/pref_titulo_ordem_jogar"
         android:summary="@string/pref_desc_ordem_jogar"
