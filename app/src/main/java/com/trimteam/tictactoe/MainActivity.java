@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -168,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             screenOn = pm.isScreenOn();
         }
-
         if (screenOn) {
             if (mServ != null) {
                 if (mServ.mPlayer == null) {

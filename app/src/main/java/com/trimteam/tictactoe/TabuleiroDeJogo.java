@@ -171,7 +171,8 @@ public class TabuleiroDeJogo extends View {
                 ultimaJogada = new Posicao(lin,col);
                 //fillPosicaoJogador();
                 if(tabuleiro.fimDoJogo() != -1) estado = Estado.FIM_DE_JOGO;
-                else estado =Estado.IA_A_JOGAR;
+                else if(!sharedPreferences.getBoolean("dois_jogadores",false)) estado =Estado.IA_A_JOGAR;
+                else estado = Estado.JOGADOR_A_JOGAR;
 
                 invalidate();
             }
@@ -216,15 +217,22 @@ public class TabuleiroDeJogo extends View {
             progresso.hide();
             int vencedor = tabuleiro.fimDoJogo();
             String message = "";
+
             if (vencedor == 0){
                 message = "Empate";
             }
             else if (vencedor == jogador) {
-                message = "Parabéns venceste";
+                if(!sharedPreferences.getBoolean("dois_jogadores",false)){
+                    message = "Parabéns venceste";}
+                else
+                    message = "Jogador 1 venceu!";
                 actividade.increaseUserVic();
             }
             else {
-                message = "O computador venceu";
+                if(!sharedPreferences.getBoolean("dois_jogadores",false))
+                    message = "O computador venceu";
+                else
+                    message = "Jogador 2 venceu!";
                 actividade.increaseCpuVic();
             }
             fimDoJogo = builder.create();

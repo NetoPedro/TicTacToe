@@ -26,6 +26,8 @@ public class TabuleiroActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     TextView imageView,imageView2, cpuPontText, userPontText;
     private int cpuPont = 0, userPont = 0;
+
+    TextView textViewJOG1, textViewJOG2, textViewPontJOG1, TextViewPontJOG2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +44,25 @@ public class TabuleiroActivity extends AppCompatActivity {
         imagensTab.put(new Posicao(2,0), (ImageView) findViewById(R.id.imageView7));
         imagensTab.put(new Posicao(2,1), (ImageView) findViewById(R.id.imageView8));
         imagensTab.put(new Posicao(2,2), (ImageView) findViewById(R.id.imageView9));*/
+        textViewJOG1 = (TextView) findViewById(R.id.textView);;
+                textViewJOG2 = (TextView) findViewById(R.id.textView2);;
+        textViewPontJOG1 = (TextView) findViewById(R.id.textView3);;
+                TextViewPontJOG2= (TextView) findViewById(R.id.textView5);;
+
         LinearLayout ll = (LinearLayout) findViewById(R.id.tabuleiroLayout);
         imageView = (TextView) findViewById(R.id.imageView);
+
         imageView2 = (TextView) findViewById(R.id.imageView2);
 
         tabuleiroDeJogo = new TabuleiroDeJogo(this);
         getPreferences();
+        if(sharedPreferences.getBoolean("dois_jogadores",false)){
+            textViewJOG1.setText("Jogador1: ");
+            textViewJOG2.setText("Jogador2: ");
+
+            textViewPontJOG1.setText("Jogador1: ");
+            TextViewPontJOG2.setText("Jogador2: ");
+        }
         ll.addView(tabuleiroDeJogo);
         //setContentView(tabuleiroDeJogo);
         tabuleiroDeJogo.invalidate();
