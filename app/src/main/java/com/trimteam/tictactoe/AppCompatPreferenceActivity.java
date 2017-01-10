@@ -24,10 +24,12 @@ import android.view.ViewGroup;
 public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
+    private  boolean resumed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
+        resumed = true;
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
@@ -74,25 +76,30 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-        boolean screenOn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            screenOn = pm.isInteractive();
-        } else {
-            screenOn = pm.isScreenOn();
-        }
-
-        if (screenOn) {
-            if (MainActivity.mServ != null) {
-                if (MainActivity.mServ.mPlayer == null) {
-                    MainActivity.mServ.startMusic();
+        resumed = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean valido = true;
+                while(!resumed || !hasWindowFocus() ){
+                    if (!resumed) {
+                        valido = false;
+                        break;
+                    }
                 }
-                if(MainActivity.musicaOn){
-                    MainActivity.mServ.resumeMusic();}
-                else MainActivity.mServ.pauseMusic();
+                if(valido) {
+                    if (MainActivity.mServ != null) {
+                        if (MainActivity.mServ.mPlayer == null) {
+                            MainActivity.mServ.startMusic();
+                        }
+                        if (MainActivity.musicaOn) {
+                            MainActivity.mServ.resumeMusic();
+                        } else MainActivity.mServ.pauseMusic();
+                    }
+                }
             }
-        }
+        }).start();
+
         MainActivity.outraAtividade = true;
         getDelegate().onPostResume();
     }
@@ -112,6 +119,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        resumed = false;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         MainActivity.musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
         if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
@@ -124,6 +132,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        resumed = false;
         getDelegate().onDestroy();
         MainActivity.outraAtividade = false;
 
@@ -131,6 +140,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        resumed = false;
         if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
             if(MainActivity.musicaOn)
                 MainActivity.mServ.pauseMusic();
@@ -140,8 +150,9 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        resumed = false;
         if (MainActivity.mServ != null)
-            if (MainActivity.mServ .mPlayer == null)
+            if (MainActivity.mServ .mPlayer != null)
                 MainActivity.mServ .pauseMusic();
     }
 

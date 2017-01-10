@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class TabuleiroDeJogo extends View {
 
     private Tabuleiro tabuleiro;
     private TabuleiroActivity actividade = null;
+    private MediaPlayer mp;
 
     public AlertDialog getDialog() {
         return fimDoJogo;
@@ -64,7 +67,8 @@ public class TabuleiroDeJogo extends View {
             estado = Estado.JOGADOR_A_JOGAR;
             jogador =1;}
         else {
-            estado = Estado.IA_A_JOGAR;
+            if(!sharedPreferences.getBoolean("dois_jogadores",false)) estado =Estado.IA_A_JOGAR;
+            else estado = Estado.JOGADOR_A_JOGAR;
             jogador =2;
         }
         tabuleiro = new Tabuleiro();
@@ -166,6 +170,8 @@ public class TabuleiroDeJogo extends View {
                 //toasAtual = Toast.makeText(getContext(), "Jogada Invalida", Toast.LENGTH_SHORT);
                 //toasAtual.show();
             } else {
+                 mp = MediaPlayer.create(actividade, R.raw.button_16);
+                mp.start();
                 ultimaJogada = null;
                 tabuleiro = tabuleiro.realizaJogada(lin,col,1);
                 ultimaJogada = new Posicao(lin,col);
@@ -173,7 +179,7 @@ public class TabuleiroDeJogo extends View {
                 if(tabuleiro.fimDoJogo() != -1) estado = Estado.FIM_DE_JOGO;
                 else if(!sharedPreferences.getBoolean("dois_jogadores",false)) estado =Estado.IA_A_JOGAR;
                 else estado = Estado.JOGADOR_A_JOGAR;
-
+                mp =null;
                 invalidate();
             }
             return true;

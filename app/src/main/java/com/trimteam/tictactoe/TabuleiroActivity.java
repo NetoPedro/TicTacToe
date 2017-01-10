@@ -28,10 +28,13 @@ public class TabuleiroActivity extends AppCompatActivity {
     private int cpuPont = 0, userPont = 0;
 
     TextView textViewJOG1, textViewJOG2, textViewPontJOG1, TextViewPontJOG2;
+    private boolean resumed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabuleiro);
+        resumed  =true;
         cpuPontText = (TextView) findViewById(R.id.pontCPU);
         userPontText = (TextView) findViewById(R.id.pontUSER);
         /*imagensTab = new HashMap<>();
@@ -73,6 +76,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        resumed = false;
         if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
             if(MainActivity.musicaOn)
                 MainActivity.mServ.pauseMusic();
@@ -83,25 +87,30 @@ public class TabuleiroActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-        boolean screenOn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            screenOn = pm.isInteractive();
-        } else {
-            screenOn = pm.isScreenOn();
-        }
-
-        if (screenOn) {
-            if (MainActivity.mServ != null) {
-                if (MainActivity.mServ.mPlayer == null) {
-                    MainActivity.mServ.startMusic();
+        resumed = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean valido = true;
+                while(!resumed || !hasWindowFocus() ){
+                    if (!resumed) {
+                        valido = false;
+                        break;
+                    }
                 }
-                if(MainActivity.musicaOn){
-                    MainActivity.mServ.resumeMusic();}
-                else MainActivity.mServ.pauseMusic();
+                if(valido) {
+                    if (MainActivity.mServ != null) {
+                        if (MainActivity.mServ.mPlayer == null) {
+                            MainActivity.mServ.startMusic();
+                        }
+                        if (MainActivity.musicaOn) {
+                            MainActivity.mServ.resumeMusic();
+                        } else MainActivity.mServ.pauseMusic();
+                    }
+                }
             }
-        }
+        }).start();
+
         MainActivity.outraAtividade = true;
 
     }
@@ -109,6 +118,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        resumed = false;
         if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
             if(!MainActivity.musicaOn)
                 MainActivity.mServ.pauseMusic();
@@ -126,8 +136,9 @@ public class TabuleiroActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        resumed = false;
         if (MainActivity.mServ != null)
-            if (MainActivity.mServ .mPlayer == null)
+            if (MainActivity.mServ .mPlayer != null)
                 if(MainActivity.musicaOn)
                      MainActivity.mServ .pauseMusic();
     }

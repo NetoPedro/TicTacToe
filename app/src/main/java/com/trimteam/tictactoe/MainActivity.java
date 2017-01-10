@@ -21,8 +21,10 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
+    boolean focus ;
+    public boolean resumed = false;
     public static MusicService mServ;
-    private ImageView musicMain;
+    private ImageView shareIcon;
     public static boolean outraAtividade = false;
     public static  Intent music;
     public static AudioManager am;
@@ -75,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         //mServ = new MusicService();
 
-
+        focus = true;
+        resumed = true;
         int result = am.requestAudioFocus(afChangeListener,
                 // Use the music stream.
                 AudioManager.STREAM_MUSIC,
@@ -145,14 +148,30 @@ public class MainActivity extends AppCompatActivity {
                 outraAtividade = true;
             }
         });
+
+        shareIcon = (ImageView) findViewById(R.id.share);
+        shareIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+
+                //intent.setType("text/html");
+                intent.setType("text/plain");
+
+                intent.putExtra(Intent.EXTRA_TEXT, "https://www.google.pt");
+                startActivity(Intent.createChooser(intent, "Share"));
+            }
+        });
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
+        resumed = false;
         if (mServ != null)
-            if (mServ.mPlayer == null) {
+            if (mServ.mPlayer != null) {
                 mServ.pauseMusic();
             }
     }
@@ -161,31 +180,60 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        //PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
-        boolean screenOn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            screenOn = pm.isInteractive();
-        } else {
-            screenOn = pm.isScreenOn();
-        }
-        if (screenOn) {
-            if (mServ != null) {
+        //boolean screenOn;
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+         //   screenOn = pm.isInteractive();
+        //} else {
+        //    screenOn = pm.isScreenOn();
+       // }
+        //if (screenOn) {
+            /**if (mServ != null) {
                 if (mServ.mPlayer == null) {
                     mServ.startMusic();
                 }
                 if(musicaOn){
                     mServ.resumeMusic();}
                 else mServ.pauseMusic();
+            }**/
+        //resumed = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                resumed = true;
+                boolean valido = true;
+               while(!resumed || !focus ){
+                    if (!resumed) {
+                        valido = false;
+                        break;
+                    }
+               }
+                if(valido) {
+                    if (mServ != null) {
+                        if (mServ.mPlayer == null) {
+                            mServ.startMusic();
+                        }
+                        if (musicaOn) {
+                            mServ.resumeMusic();
+                        } else mServ.pauseMusic();
+                    }
+                }
             }
-        }
+        }).start();
+        //}
     }
 
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        focus = hasFocus;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        resumed = false;
         mServ.pauseMusic();
          doUnbindService();
 
@@ -195,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        resumed = false;
         if(!outraAtividade) {
             //doUnbindService();
             //stopService(music);
@@ -207,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        resumed = false;
         mServ.pauseMusic();
         doUnbindService();
 
