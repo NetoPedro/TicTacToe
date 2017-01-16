@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">TicTacToe</string>
-    <string name="jogador">Player </string>
+    <string name="app_name">Jogo do Galo</string>
+    <string name="jogador">Jogador:</string>
     <string name="cpu">CPU:</string>
-    <string name="title_activity_opcoes">Options</string>
+    <string name="title_activity_opcoes">Opçoes</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
+    <string name="pref_header_general">Geral</string>
 
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact
@@ -19,9 +19,9 @@
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_lista_dificuldades">
-        <item>Easy</item>
-        <item>Hard</item>
-        <item>Very Hard/Impossible</item>
+        <item>Fácil</item>
+        <item>Difícil</item>
+        <item>Muito Difícil</item>
     </string-array>
     <string-array name="pref_valores_lista_dificuldades">
         <item>1</item>
@@ -61,19 +61,19 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="dificuldade">Difficulty</string>
-    <string name="pref_desc_ordem_jogar">Player Plays First</string>
-    <string name="pref_titulo_ordem_jogar">Playing order</string>
-    <string name="multiPlayer1">Player1:</string>
-    <string name="multiPlayer2">Player2:</string>
-    <string name="player1Win">Player 1 Won!</string>
-    <string name="player2Win">You Won! Congrats </string>
-    <string name="cpuWin">CPU Won! Try again ! </string>
-    <string name="playerWin">Player 2 Won!</string>
-    <string name="draw">Draw</string>
-    <string name="twoPlayersSummary">Two Players </string>
-    <string name="twoPlayersTitle">Two Players</string>
-    <string name="soundSummary">Sound On</string>
-    <string name="soundTitle">Sound</string>
-    <string name="palyer">Player:</string>
+    <string name="dificuldade">Dificuldade</string>
+    <string name="pref_desc_ordem_jogar">Jogador joga primeiro</string>
+    <string name="pref_titulo_ordem_jogar">Ordem a jogar</string>
+    <string name="multiPlayer1">Jogador1: </string>
+    <string name="player1Win">Jogador 1 venceu!</string>
+    <string name="player2Win">Parabéns venceste</string>
+    <string name="playerWin">Jogador 2 venceu!</string>
+    <string name="draw">Empate</string>
+    <string name="multiPlayer2">Jogador2: </string>
+    <string name="twoPlayersSummary">Dois Jogadores</string>
+    <string name="twoPlayersTitle">Dois Jogadores</string>
+    <string name="soundSummary">Som Ligado</string>
+    <string name="soundTitle">Som</string>
+    <string name="cpuWin">O Computador Venceu! Tenta de novo</string>
+    <string name="palyer">Jogador:</string>
 </resources>

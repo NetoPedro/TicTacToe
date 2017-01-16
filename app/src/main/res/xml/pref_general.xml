@@ -5,14 +5,14 @@
 
     <CheckBoxPreference
         android:key="som_ligado"
-        android:title="Som"
-        android:summary="Som Ligado"
+        android:title="@string/soundTitle"
+        android:summary="@string/soundSummary"
         android:defaultValue="true"
         ></CheckBoxPreference>
     <CheckBoxPreference
         android:key="dois_jogadores"
-        android:title="Dois Jogadores"
-        android:summary="Dois Jogadores"
+        android:title="@string/twoPlayersTitle"
+        android:summary="@string/twoPlayersSummary"
         android:defaultValue="false"
         ></CheckBoxPreference>
     <CheckBoxPreference

@@ -225,20 +225,20 @@ public class TabuleiroDeJogo extends View {
             String message = "";
 
             if (vencedor == 0){
-                message = "Empate";
+                message = getContext().getString(R.string.draw);
             }
             else if (vencedor == jogador) {
                 if(!sharedPreferences.getBoolean("dois_jogadores",false)){
-                    message = "Parabéns venceste";}
+                    message = getContext().getString(R.string.player2Win);}
                 else
-                    message = "Jogador 1 venceu!";
+                    message = getContext().getString(R.string.player1Win);
                 actividade.increaseUserVic();
             }
             else {
                 if(!sharedPreferences.getBoolean("dois_jogadores",false))
-                    message = "O computador venceu";
+                    message = getContext().getString(R.string.cpuWin);
                 else
-                    message = "Jogador 2 venceu!";
+                    message = getContext().getString(R.string.playerWin);
                 actividade.increaseCpuVic();
             }
             fimDoJogo = builder.create();

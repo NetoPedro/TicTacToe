@@ -60,11 +60,11 @@ public class TabuleiroActivity extends AppCompatActivity {
         tabuleiroDeJogo = new TabuleiroDeJogo(this);
         getPreferences();
         if(sharedPreferences.getBoolean("dois_jogadores",false)){
-            textViewJOG1.setText("Jogador1: ");
-            textViewJOG2.setText("Jogador2: ");
+            textViewJOG1.setText(R.string.multiPlayer1);
+            textViewJOG2.setText(R.string.multiPlayer2);
 
-            textViewPontJOG1.setText("Jogador1: ");
-            TextViewPontJOG2.setText("Jogador2: ");
+            textViewPontJOG1.setText(R.string.multiPlayer1);
+            TextViewPontJOG2.setText(R.string.multiPlayer2);
         }
         ll.addView(tabuleiroDeJogo);
         //setContentView(tabuleiroDeJogo);
