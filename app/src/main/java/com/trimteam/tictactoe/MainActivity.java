@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.ResolveInfo;
 import android.icu.util.TimeUnit;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +20,8 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
@@ -155,14 +159,30 @@ public class MainActivity extends AppCompatActivity {
         shareIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-
-                //intent.setType("text/html");
+                String urlToShare = "http://play.google.com/store/apps/details?id=com.trimteam.tictactoe";
+                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
+// intent.putExtra(Intent.EXTRA_SUBJECT, "Foo bar"); // NB: has no effect!
+                intent.putExtra(Intent.EXTRA_TEXT, urlToShare);
 
-                intent.putExtra(Intent.EXTRA_TEXT, "https://www.google.pt");
-                startActivity(Intent.createChooser(intent, "Share"));
+// See if official Facebook app is found
+                boolean facebookAppFound = false;
+                List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
+                for (ResolveInfo info : matches) {
+                    if (info.activityInfo.packageName.toLowerCase().startsWith("com.facebook.katana")) {
+                        intent.setPackage(info.activityInfo.packageName);
+                        facebookAppFound = true;
+                        break;
+                    }
+                }
+
+// As fallback, launch sharer.php in a browser
+                if (!facebookAppFound) {
+                    String sharerUrl = "https://www.facebook.com/sharer/sharer.php?u=" + urlToShare;
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sharerUrl));
+                }
+
+                startActivity(intent);
             }
         });
     }
