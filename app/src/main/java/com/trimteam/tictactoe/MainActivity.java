@@ -21,8 +21,8 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
-    boolean focus ;
-    public boolean resumed = false;
+    static boolean focus = false;
+    public static boolean resumed = false;
     public static MusicService mServ;
     private ImageView shareIcon;
     public static boolean outraAtividade = false;
@@ -49,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
                         mServ.mPlayer.setVolume(5,5);
                     } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                         if (musicaOn ){
-                            mServ.resumeMusic();
-                             mServ.mPlayer.setVolume(20,20);
+                            if (resumed && focus) {
+                                mServ.resumeMusic();
+                                mServ.mPlayer.setVolume(20, 20);
+                            }
                         }
                     }
                 }
