@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.HashMap;
 
 public class TabuleiroActivity extends AppCompatActivity {
@@ -26,7 +30,8 @@ public class TabuleiroActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     TextView imageView,imageView2, cpuPontText, userPontText;
     private int cpuPont = 0, userPont = 0;
-
+    InterstitialAd mInterstitialAd;
+    private static int played = 0;
     TextView textViewJOG1, textViewJOG2, textViewPontJOG1, TextViewPontJOG2;
     private boolean resumed;
 
@@ -34,6 +39,16 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabuleiro);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3410114126236036/3100209900");
+        requestNewInterstitial();
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+        played++;
         resumed  =true;
         cpuPontText = (TextView) findViewById(R.id.pontCPU);
         userPontText = (TextView) findViewById(R.id.pontUSER);
@@ -73,14 +88,19 @@ public class TabuleiroActivity extends AppCompatActivity {
 
     }
 
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         resumed = false;
-        if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
-            if(MainActivity.musicaOn)
-                MainActivity.mServ.pauseMusic();
-        }
+
         MainActivity.outraAtividade = false;
     }
 
@@ -88,28 +108,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         resumed = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean valido = true;
-                while(!resumed || !hasWindowFocus() ){
-                    if (!resumed) {
-                        valido = false;
-                        break;
-                    }
-                }
-                if(valido) {
-                    if (MainActivity.mServ != null) {
-                        if (MainActivity.mServ.mPlayer == null) {
-                            MainActivity.mServ.startMusic();
-                        }
-                        if (MainActivity.musicaOn) {
-                            MainActivity.mServ.resumeMusic();
-                        } else MainActivity.mServ.pauseMusic();
-                    }
-                }
-            }
-        }).start();
+
 
         MainActivity.outraAtividade = true;
 
@@ -119,11 +118,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         resumed = false;
-        if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
-            if(!MainActivity.musicaOn)
-                MainActivity.mServ.pauseMusic();
 
-        }
         MainActivity.outraAtividade = false;
         AlertDialog dialog = tabuleiroDeJogo.getDialog();
         if(dialog!=null){
@@ -137,20 +132,23 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         resumed = false;
-        if (MainActivity.mServ != null)
-            if (MainActivity.mServ .mPlayer != null)
-                if(MainActivity.musicaOn)
-                     MainActivity.mServ .pauseMusic();
     }
 
     public void restart() {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.tabuleiroLayout);
-        ((ViewGroup)tabuleiroDeJogo.getParent()).removeView(tabuleiroDeJogo);
-        tabuleiroDeJogo = new TabuleiroDeJogo(this);
-        getPreferences();
-        ll.addView(tabuleiroDeJogo);
-        //setContentView(tabuleiroDeJogo);
-        tabuleiroDeJogo.invalidate();
+        if (mInterstitialAd.isLoaded() && TabuleiroActivity.played ==4) {
+            mInterstitialAd.show();
+            played =0;
+        }
+            LinearLayout ll = (LinearLayout) findViewById(R.id.tabuleiroLayout);
+            ((ViewGroup) tabuleiroDeJogo.getParent()).removeView(tabuleiroDeJogo);
+            tabuleiroDeJogo = new TabuleiroDeJogo(this);
+            getPreferences();
+            ll.addView(tabuleiroDeJogo);
+            //setContentView(tabuleiroDeJogo);
+            tabuleiroDeJogo.invalidate();
+        played++;
+
+
     }
 
     public void increaseCpuVic(){

@@ -21,13 +21,16 @@ import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
     static boolean focus = false;
     public static boolean resumed = false;
-    public static MusicService mServ;
     private ImageView shareIcon;
     public static boolean outraAtividade = false;
     public static  Intent music;
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     public static Runnable mDelayedStopRunnable = new Runnable() {
         @Override
         public void run() {
-            mServ.pauseMusic();
         }
     };
     public static AudioManager.OnAudioFocusChangeListener afChangeListener =
@@ -44,18 +46,13 @@ public class MainActivity extends AppCompatActivity {
                     if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                         // Permanent loss of audio focus
                         // Pause playback immediately
-                        mServ.pauseMusic();
                         // Wait 30 seconds before stopping playback
                         mHandler.postDelayed(mDelayedStopRunnable, 30 * 1000);
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                        mServ.pauseMusic();
                     } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-                        mServ.mPlayer.setVolume(5,5);
                     } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                         if (musicaOn ){
                             if (resumed && focus) {
-                                mServ.resumeMusic();
-                                mServ.mPlayer.setVolume(20, 20);
                             }
                         }
                     }
@@ -69,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3410114126236036~1623476703");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
 
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         ImageView play = (ImageView) findViewById(R.id.play);
-        doBindService();
 
         //mServ = new MusicService();
 
@@ -91,21 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 // Request permanent focus.
                 AudioManager.AUDIOFOCUS_GAIN);
 
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED ) {
-            // Start playback
-            if(mServ == null ) {
-                this.doBindService();
-                music = new Intent(this, MusicService.class);
-                if (musicaOn)startService(music);
-            }
-            else if(mServ.mPlayer == null){
-                    if(musicaOn)mServ.startMusic();
 
-            }
-               if(mServ != null ) if (mServ.mPlayer!= null){
-                   if (musicaOn) mServ.resumeMusic();
-                   else mServ.pauseMusic();
-               }
+
+
 
 
             //musicMain = (ImageView) findViewById(R.id.musicMain);
@@ -136,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
             });*/
-        }
+
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,10 +180,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         resumed = false;
-        if (mServ != null)
-            if (mServ.mPlayer != null) {
-                mServ.pauseMusic();
-            }
+
     }
 
 
@@ -220,29 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 else mServ.pauseMusic();
             }**/
         //resumed = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                resumed = true;
-                boolean valido = true;
-               while(!resumed || !focus ){
-                    if (!resumed) {
-                        valido = false;
-                        break;
-                    }
-               }
-                if(valido) {
-                    if (mServ != null) {
-                        if (mServ.mPlayer == null) {
-                            mServ.startMusic();
-                        }
-                        if (musicaOn) {
-                            mServ.resumeMusic();
-                        } else mServ.pauseMusic();
-                    }
-                }
-            }
-        }).start();
+
         //}
     }
 
@@ -256,8 +219,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         resumed = false;
-        mServ.pauseMusic();
-         doUnbindService();
 
          stopService(music);
     }
@@ -269,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
         if(!outraAtividade) {
             //doUnbindService();
             //stopService(music);
-            mServ.pauseMusic();
             am.abandonAudioFocus(afChangeListener);
         }
 
@@ -279,8 +239,7 @@ public class MainActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         resumed = false;
-        mServ.pauseMusic();
-        doUnbindService();
+
 
         am.abandonAudioFocus(afChangeListener);
 
@@ -288,31 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public  ServiceConnection Scon =new ServiceConnection(){
-
-        public void onServiceConnected(ComponentName name, IBinder
-                binder) {
-            mServ = ((MusicService.ServiceBinder) binder).getService();
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            mServ = null;
-        }
-    };
-
-    public  void doBindService(){
-        Intent bindIntent = new Intent(this,MusicService.class);
-        mIsBound = bindService(bindIntent,Scon,this.BIND_AUTO_CREATE);
-    }
 
 
 
-    public  void doUnbindService()
-    {
-        if(mIsBound)
-        {
-            unbindService(Scon);
-            mIsBound = false;
-        }
-    }
 }

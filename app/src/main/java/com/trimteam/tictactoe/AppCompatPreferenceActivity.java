@@ -77,28 +77,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onPostResume() {
         super.onPostResume();
         resumed = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean valido = true;
-                while(!resumed || !hasWindowFocus() ){
-                    if (!resumed) {
-                        valido = false;
-                        break;
-                    }
-                }
-                if(valido) {
-                    if (MainActivity.mServ != null) {
-                        if (MainActivity.mServ.mPlayer == null) {
-                            MainActivity.mServ.startMusic();
-                        }
-                        if (MainActivity.musicaOn) {
-                            MainActivity.mServ.resumeMusic();
-                        } else MainActivity.mServ.pauseMusic();
-                    }
-                }
-            }
-        }).start();
+
 
         MainActivity.outraAtividade = true;
         getDelegate().onPostResume();
@@ -122,10 +101,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         resumed = false;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         MainActivity.musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
-        if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
-            if(!MainActivity.musicaOn)
-                MainActivity.mServ.pauseMusic();
-        }
+
         getDelegate().onStop();
     }
 
@@ -141,19 +117,14 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         resumed = false;
-        if(MainActivity.mServ != null ) if (MainActivity.mServ.mPlayer!= null){
-            if(MainActivity.musicaOn)
-                MainActivity.mServ.pauseMusic();
-        }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         resumed = false;
-        if (MainActivity.mServ != null)
-            if (MainActivity.mServ .mPlayer != null)
-                MainActivity.mServ .pauseMusic();
+
     }
 
     public void invalidateOptionsMenu() {
