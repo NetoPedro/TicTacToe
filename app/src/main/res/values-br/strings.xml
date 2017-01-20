@@ -76,4 +76,9 @@
     <string name="soundTitle">Som</string>
     <string name="cpuWin">O Computador venceu! Tenta de novo </string>
     <string name="palyer">Jogador:</string>
+    <string name="rateTitle">Classifica esta aplicação</string>
+    <string name="rateContent">Se gostaste desta app, por favor avalia-nos na play store. Obrigado pelo o apoio!</string>
+    <string name="later">Depois</string>
+    <string name="never">Não, obrigado</string>
+    <string name="rateNow">Avaliar agora</string>
 </resources>

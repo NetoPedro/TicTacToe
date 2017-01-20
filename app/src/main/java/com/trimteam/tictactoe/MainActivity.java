@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.util.TimeUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
+    private  Rater rater ;
     static boolean focus = false;
     public static boolean resumed = false;
     private ImageView shareIcon;
@@ -64,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
     public static boolean musicaOn =true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        rater = new Rater(getApplicationContext());
+        android.app.AlertDialog ad = rater.show();
+        if(ad!=null ) ad.show();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3410114126236036~1623476703");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -219,8 +225,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         resumed = false;
-
-         stopService(music);
     }
 
     @Override

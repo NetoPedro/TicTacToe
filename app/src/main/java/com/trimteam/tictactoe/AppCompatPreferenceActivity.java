@@ -100,7 +100,6 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         super.onStop();
         resumed = false;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        MainActivity.musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
 
         getDelegate().onStop();
     }

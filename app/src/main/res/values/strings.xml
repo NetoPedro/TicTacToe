@@ -76,4 +76,9 @@
     <string name="soundSummary">Sound On</string>
     <string name="soundTitle">Sound</string>
     <string name="palyer">Player:</string>
+    <string name="rateTitle">Rate this app</string>
+    <string name="rateContent">Has this app convinced you? We would be very happy if you could rate our application on Google Play. Thanks for your support!</string>
+    <string name="rateNow">Rate now</string>
+    <string name="later">Later</string>
+    <string name="never">No, thanks</string>
 </resources>
