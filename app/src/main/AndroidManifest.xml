@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectDificultyActivity"></activity>
+        <activity android:name=".SelectGameModeActivity"></activity>
     </application>
 
 </manifest>

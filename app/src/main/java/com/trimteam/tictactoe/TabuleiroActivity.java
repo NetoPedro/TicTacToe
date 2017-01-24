@@ -42,8 +42,8 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabuleiro);
-        level = savedInstanceState.getInt("level");
-        multi = savedInstanceState.getBoolean("multi");
+        level = getIntent().getExtras().getInt("level");
+        multi = getIntent().getExtras().getBoolean("multi");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3410114126236036/3100209900");
         requestNewInterstitial();

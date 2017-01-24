@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, TabuleiroActivity.class);
+                Intent i = new Intent(MainActivity.this, SelectGameModeActivity.class);
                 startActivity(i);
                 outraAtividade = true;
             }
