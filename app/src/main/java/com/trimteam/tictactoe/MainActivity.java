@@ -146,15 +146,15 @@ public class MainActivity extends AppCompatActivity {
                 outraAtividade = true;
             }
         });
-        ImageView opcoes = (ImageView) findViewById(R.id.settings);
-        opcoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, Opcoes.class);
-                startActivity(i);
-                outraAtividade = true;
-            }
-        });
+        //ImageView opcoes = (ImageView) findViewById(R.id.settings);
+        //opcoes.setOnClickListener(new View.OnClickListener() {
+          //  @Override
+         //   public void onClick(View view) {
+         //       Intent i = new Intent(MainActivity.this, Opcoes.class);
+        //        startActivity(i);
+         //      outraAtividade = true;
+       //     }
+        //});
 
         shareIcon = (ImageView) findViewById(R.id.share);
         shareIcon.setOnClickListener(new View.OnClickListener() {

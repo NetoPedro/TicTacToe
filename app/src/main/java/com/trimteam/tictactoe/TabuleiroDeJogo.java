@@ -65,7 +65,7 @@ public class TabuleiroDeJogo extends View {
         this.multi = multi;
         profundidade =level;
 
-        if(!cpuLastWinner){
+        if(!cpuLastWinner ){
             estado = Estado.JOGADOR_A_JOGAR;
             jogador =1;}
         else {
@@ -129,11 +129,12 @@ public class TabuleiroDeJogo extends View {
                 if(!tabuleiro.isVazia(linha,coluna)){
 
 
-                    paint.setColor(tabuleiro.isX(linha,coluna)? Color.LTGRAY : Color.rgb(123,167,123));
+                    paint.setColor(tabuleiro.isX(linha,coluna)? Color.LTGRAY : Color.parseColor("#ffffbb33"));
                     if(tabuleiro.isX(linha,coluna)){
-                        paint.setStrokeWidth(10);
-                        canvas.drawLine(a+3,b+3,a+dimQuadrado-3,b+dimQuadrado-3,paint);
-                        canvas.drawLine(a+dimQuadrado+3,b+3,a-3,b-3+dimQuadrado,paint);
+                        paint.setStrokeWidth(25);
+                        canvas.drawLine(a+10+10,b+10+10,a+dimQuadrado-10-10,b+dimQuadrado-10-10,paint);
+                        //canvas.drawLine(a+dimQuadrado+3+10,b-3-10,a+3+10,b-3-10+dimQuadrado,paint);
+                        canvas.drawLine(a+20,b+dimQuadrado-20,a+dimQuadrado-20,b+20,paint);
                     }else{
                         canvas.drawCircle(a+(dimQuadrado/2),b+(dimQuadrado/2),dimQuadrado*0.45f,paint);
                         paint.setColor(Color.parseColor("#ff303030"));
@@ -225,8 +226,9 @@ public class TabuleiroDeJogo extends View {
             progresso.hide();
             int vencedor = tabuleiro.fimDoJogo();
             String message = "";
+        actividade.cpuLastWinner = !actividade.cpuLastWinner;
 
-            if (vencedor == 0){
+        if (vencedor == 0){
                 message = getContext().getString(R.string.draw);
             }
             else if (vencedor == jogador) {

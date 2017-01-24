@@ -64,12 +64,12 @@
     <string name="dificuldade">Dificuldade</string>
     <string name="pref_desc_ordem_jogar">Jogador joga primeiro</string>
     <string name="pref_titulo_ordem_jogar">Ordem a jogar</string>
-    <string name="multiPlayer1">Jogador1: </string>
+    <string name="multiPlayer1">Jogador 1:</string>
     <string name="player1Win">Jogador 1 venceu!</string>
     <string name="player2Win">Parabéns venceste</string>
     <string name="playerWin">Jogador 2 venceu!</string>
     <string name="draw">Empate</string>
-    <string name="multiPlayer2">Jogador2:</string>
+    <string name="multiPlayer2">Jogador 2:</string>
     <string name="twoPlayersSummary">Dois Jogadores</string>
     <string name="twoPlayersTitle">Dois Jogadores</string>
     <string name="soundSummary">Som Ligado</string>
@@ -81,4 +81,12 @@
     <string name="later">Depois</string>
     <string name="never">Não, obrigado</string>
     <string name="rateNow">Avaliar agora</string>
+    <string name="easy">Fácil</string>
+    <string name="select_game_mode">Modo de Jogo</string>
+
+    <string name="single_player">1 Jogador</string>
+    <string name="multiplayer">2 Jogadores</string>
+    <string name="hard">Díficil</string>
+    <string name="impossible">Impossível</string>
+    <string name="select_difficulty"> Dificuldade</string>
 </resources>

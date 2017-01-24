@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="multiPlayer1">"Jogador1: "</string>
-    <string name="player1Win">Jogador 1 venceu!</string>
-    <string name="player2Win">Parabéns venceste</string>
-    <string name="playerWin">Jogador 2 venceu!</string>
+    <string name="multiPlayer1">Player 1</string>
+    <string name="player1Win">Player 1 won!</string>
+    <string name="player2Win">You won! </string>
+    <string name="playerWin">Player 2 won!</string>
     <string name="draw">Empate</string>
     <string name="twoPlayersSummary">Dois Jogadores</string>
     <string name="twoPlayersTitle">Dois Jogadores</string>

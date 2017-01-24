@@ -32,7 +32,7 @@ public class TabuleiroActivity extends AppCompatActivity {
     private int cpuPont = 0, userPont = 0;
     InterstitialAd mInterstitialAd;
     private boolean multi ;
-    private boolean cpuLastWinner = false;
+    public boolean cpuLastWinner = false;
     private int level ;
     private static int played = 0;
     TextView textViewJOG1, textViewJOG2, textViewPontJOG1, TextViewPontJOG2;
@@ -159,23 +159,21 @@ public class TabuleiroActivity extends AppCompatActivity {
     public void increaseCpuVic(){
         cpuPont++;
         cpuPontText.setText(""+cpuPont);
-        cpuLastWinner = true;
     }
     public void increaseUserVic(){
         userPont++;
         userPontText.setText(""+
                 userPont);
-        cpuLastWinner = false;
     }
 
     public void getPreferences(){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(!cpuLastWinner){
+        if(!cpuLastWinner ){
             imageView.setBackgroundColor(Color.LTGRAY);
-            imageView2.setBackgroundColor(Color.rgb(123,167,123));}
+            imageView2.setBackgroundColor(Color.parseColor("#ffffbb33"));}
         else{
-            imageView.setBackgroundColor(Color.rgb(123,167,123));
+            imageView.setBackgroundColor(Color.parseColor("#ffffbb33"));
             imageView2.setBackgroundColor(Color.LTGRAY);}
     }
 }
