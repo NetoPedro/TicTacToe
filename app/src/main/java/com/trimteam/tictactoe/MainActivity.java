@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
 
     }
 

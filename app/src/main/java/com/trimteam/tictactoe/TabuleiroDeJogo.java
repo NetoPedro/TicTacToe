@@ -30,6 +30,8 @@ public class TabuleiroDeJogo extends View {
     private TabuleiroActivity actividade = null;
     private MediaPlayer mp;
 
+    private boolean multi ;
+
     public AlertDialog getDialog() {
         return fimDoJogo;
     }
@@ -50,7 +52,7 @@ public class TabuleiroDeJogo extends View {
     private Posicao ultimaJogada = null;
     private int profundidade;
     private SharedPreferences sharedPreferences = null;
-    public TabuleiroDeJogo(TabuleiroActivity actividade){
+    public TabuleiroDeJogo(TabuleiroActivity actividade, boolean cpuLastWinner, int level , boolean multi){
         super(actividade);
         this.actividade = actividade;
         this.setOnTouchListener(new OnTouchListener() {
@@ -60,16 +62,16 @@ public class TabuleiroDeJogo extends View {
             }
         });
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(actividade);
+        this.multi = multi;
+        profundidade =level;
 
-        profundidade = Integer.parseInt(sharedPreferences.getString("nivel_dificuldade","1"));
-
-        if(sharedPreferences.getBoolean("ordem_jogar",true)){
+        if(!cpuLastWinner){
             estado = Estado.JOGADOR_A_JOGAR;
             jogador =1;}
         else {
-            if(!sharedPreferences.getBoolean("dois_jogadores",false)) estado =Estado.IA_A_JOGAR;
+            if(!multi) estado =Estado.IA_A_JOGAR;
             else estado = Estado.JOGADOR_A_JOGAR;
-            jogador =2;
+            jogador = 2;
         }
         tabuleiro = new Tabuleiro();
         paint = new Paint();
@@ -177,7 +179,7 @@ public class TabuleiroDeJogo extends View {
                 ultimaJogada = new Posicao(lin,col);
                 //fillPosicaoJogador();
                 if(tabuleiro.fimDoJogo() != -1) estado = Estado.FIM_DE_JOGO;
-                else if(!sharedPreferences.getBoolean("dois_jogadores",false)) estado =Estado.IA_A_JOGAR;
+                else if(!multi) estado =Estado.IA_A_JOGAR;
                 else estado = Estado.JOGADOR_A_JOGAR;
                 mp =null;
                 invalidate();
@@ -228,14 +230,14 @@ public class TabuleiroDeJogo extends View {
                 message = getContext().getString(R.string.draw);
             }
             else if (vencedor == jogador) {
-                if(!sharedPreferences.getBoolean("dois_jogadores",false)){
+                if(!multi){
                     message = getContext().getString(R.string.player2Win);}
                 else
                     message = getContext().getString(R.string.player1Win);
                 actividade.increaseUserVic();
             }
             else {
-                if(!sharedPreferences.getBoolean("dois_jogadores",false))
+                if(!multi)
                     message = getContext().getString(R.string.cpuWin);
                 else
                     message = getContext().getString(R.string.playerWin);
