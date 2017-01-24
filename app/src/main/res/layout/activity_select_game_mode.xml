@@ -15,6 +15,10 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="@string/select_game_mode"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="true"
+        android:fontFamily="monospace"
         android:textSize="@android:dimen/app_icon_size"
         android:id="@+id/text_select_game_mode"
         android:layout_marginBottom="64dp"
@@ -29,7 +33,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@+id/button_select_game_mode"
+        android:layout_below="@+id/text_select_game_mode"
         android:id="@+id/button_single_player" />
 
     <Button

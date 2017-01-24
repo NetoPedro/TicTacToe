@@ -14,10 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textAllCaps="true"
+        android:fontFamily="monospace"
         android:text="@string/select_difficulty"
         android:textSize="@android:dimen/app_icon_size"
         android:id="@+id/text_select_difficulty"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="48dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"/>
