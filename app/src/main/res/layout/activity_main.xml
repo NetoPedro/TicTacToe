@@ -20,7 +20,7 @@
         android:textSize="64dp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="86dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"/>
 
@@ -28,7 +28,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="8">
 
         <ImageView
             android:layout_width="0dp"
