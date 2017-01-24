@@ -86,7 +86,7 @@
     <string name="multiplayer">Multiplayer</string>
     <string name="easy">Easy</string>
     <string name="hard">Hard</string>
-    <string name="impossible">Impossible</string>
+    <string name="impossible">Insane</string>
     <string name="select_difficulty">Difficulty</string>
     <string name="tictactoe">Tic Tac Toe</string>
 </resources>

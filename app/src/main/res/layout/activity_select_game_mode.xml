@@ -17,11 +17,12 @@
         android:textAlignment="center"
         android:gravity="center"
         android:text="@string/select_game_mode"
+        android:textColor="@android:color/holo_orange_light"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textAllCaps="true"
         android:fontFamily="monospace"
-        android:textSize="@android:dimen/app_icon_size"
+        android:textSize="48sp"
         android:id="@+id/text_select_game_mode"
         android:layout_weight="7"/>
 
@@ -36,23 +37,23 @@
         <Button
             android:text="@string/single_player"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textSize="24dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:id="@+id/button_single_player"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"/>
+            android:padding="24dp"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:text="@string/multiplayer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textSize="24dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:id="@+id/button_multiplayer"
-            android:layout_weight="1" />
+            android:padding="24dp"/>
 
     </LinearLayout>
 
