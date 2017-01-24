@@ -84,4 +84,8 @@
     <string name="select_game_mode">Select Game Mode</string>
     <string name="single_player">Single Player</string>
     <string name="multiplayer">Multiplayer</string>
+    <string name="easy">Easy</string>
+    <string name="hard">Hard</string>
+    <string name="impossible">Impossible</string>
+    <string name="select_difficulty">Select Difficulty</string>
 </resources>

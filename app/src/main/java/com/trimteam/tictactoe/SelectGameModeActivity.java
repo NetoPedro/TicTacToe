@@ -3,7 +3,7 @@ package com.trimteam.tictactoe;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SelectGameMode extends AppCompatActivity {
+public class SelectGameModeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
