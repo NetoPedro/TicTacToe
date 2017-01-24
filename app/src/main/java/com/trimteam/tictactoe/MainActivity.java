@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
 import android.icu.util.TimeUnit;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -79,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
         //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //musicaOn = (sharedPreferences.getBoolean("som_ligado",true));
+
+
+        TextView title = (TextView) findViewById(R.id.text_main_title);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/gomarice_super_g_type_2.ttf");
+        title.setTypeface(typeface);
 
     }
 
