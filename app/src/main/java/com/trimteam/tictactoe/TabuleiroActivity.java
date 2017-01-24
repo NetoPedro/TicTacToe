@@ -31,6 +31,9 @@ public class TabuleiroActivity extends AppCompatActivity {
     TextView imageView,imageView2, cpuPontText, userPontText;
     private int cpuPont = 0, userPont = 0;
     InterstitialAd mInterstitialAd;
+    private boolean multi ;
+    private boolean cpuLastWinner = false;
+    private int level ;
     private static int played = 0;
     TextView textViewJOG1, textViewJOG2, textViewPontJOG1, TextViewPontJOG2;
     private boolean resumed;
@@ -39,6 +42,8 @@ public class TabuleiroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabuleiro);
+        level = savedInstanceState.getInt("level");
+        multi = savedInstanceState.getBoolean("multi");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3410114126236036/3100209900");
         requestNewInterstitial();
@@ -72,9 +77,9 @@ public class TabuleiroActivity extends AppCompatActivity {
 
         imageView2 = (TextView) findViewById(R.id.imageView2);
 
-        tabuleiroDeJogo = new TabuleiroDeJogo(this);
+        tabuleiroDeJogo = new TabuleiroDeJogo(this, cpuLastWinner,level,multi);
         getPreferences();
-        if(sharedPreferences.getBoolean("dois_jogadores",false)){
+        if(multi){
             textViewJOG1.setText(R.string.multiPlayer1);
             textViewJOG2.setText(R.string.multiPlayer2);
 
@@ -141,7 +146,7 @@ public class TabuleiroActivity extends AppCompatActivity {
         }
             LinearLayout ll = (LinearLayout) findViewById(R.id.tabuleiroLayout);
             ((ViewGroup) tabuleiroDeJogo.getParent()).removeView(tabuleiroDeJogo);
-            tabuleiroDeJogo = new TabuleiroDeJogo(this);
+            tabuleiroDeJogo = new TabuleiroDeJogo(this, cpuLastWinner, level,multi);
             getPreferences();
             ll.addView(tabuleiroDeJogo);
             //setContentView(tabuleiroDeJogo);
@@ -154,17 +159,19 @@ public class TabuleiroActivity extends AppCompatActivity {
     public void increaseCpuVic(){
         cpuPont++;
         cpuPontText.setText(""+cpuPont);
+        cpuLastWinner = true;
     }
     public void increaseUserVic(){
         userPont++;
         userPontText.setText(""+
                 userPont);
+        cpuLastWinner = false;
     }
 
     public void getPreferences(){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(sharedPreferences.getBoolean("ordem_jogar",true)){
+        if(!cpuLastWinner){
             imageView.setBackgroundColor(Color.LTGRAY);
             imageView2.setBackgroundColor(Color.rgb(123,167,123));}
         else{
