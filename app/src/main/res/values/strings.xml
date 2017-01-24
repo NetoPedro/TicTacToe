@@ -89,7 +89,4 @@
     <string name="impossible">Insane</string>
     <string name="select_difficulty">Difficulty</string>
     <string name="tictactoe">Tic Tac Toe</string>
-    <string name="multiplayer">multiplayer</string>
-    <string name="select_game_mode">Game Mode</string>
-    <string name="single_player">Single Player</string>
 </resources>
