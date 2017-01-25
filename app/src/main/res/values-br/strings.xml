@@ -89,4 +89,5 @@
     <string name="hard">Díficil</string>
     <string name="impossible">Impossível</string>
     <string name="select_difficulty"> Dificuldade</string>
+    <string name="the_impossible">INSANO</string>
 </resources>

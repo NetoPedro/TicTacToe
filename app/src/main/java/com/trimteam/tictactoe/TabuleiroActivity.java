@@ -164,6 +164,15 @@ public class TabuleiroActivity extends AppCompatActivity {
         userPont++;
         userPontText.setText(""+
                 userPont);
+        if(!multi && level == sharedPreferences.getInt("niveisPassados", 1) && level !=7){
+            if (level == 1) {
+                sharedPreferences.edit().putInt("niveisPassados", level + 2).apply();
+            }
+            else{
+                sharedPreferences.edit().putInt("niveisPassados", level + 4).apply();
+            }
+        }
+
     }
 
     public void getPreferences(){
