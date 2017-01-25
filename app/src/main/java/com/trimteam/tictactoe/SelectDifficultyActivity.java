@@ -70,6 +70,12 @@ public class SelectDifficultyActivity extends AppCompatActivity {
         i.putExtra("multi",multi);
         i.putExtra("level",level);
         startActivity(i);
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 }
