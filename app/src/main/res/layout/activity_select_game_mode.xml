@@ -43,7 +43,8 @@
             android:layout_marginRight="16dp"
             android:id="@+id/button_single_player"
             android:padding="24dp"
-            android:layout_marginBottom="8dp"/>
+            android:background="@drawable/button_border"
+            android:layout_marginBottom="16dp"/>
 
         <Button
             android:text="@string/multiplayer"
@@ -52,6 +53,7 @@
             android:textSize="18sp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:background="@drawable/button_border"
             android:id="@+id/button_multiplayer"
             android:padding="24dp"/>
 

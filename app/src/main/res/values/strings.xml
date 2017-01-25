@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TicTacToe</string>
-    <string name="jogador">Player </string>
+    <string name="jogador">Player:</string>
     <string name="cpu">CPU:</string>
     <string name="title_activity_opcoes">Options</string>
 
@@ -89,4 +89,5 @@
     <string name="impossible">Insane</string>
     <string name="select_difficulty">Difficulty</string>
     <string name="tictactoe">Tic Tac Toe</string>
+    <string name="the_impossible">Impossible</string>
 </resources>

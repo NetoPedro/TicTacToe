@@ -43,7 +43,8 @@
             android:id="@+id/button_easy"
             android:textSize="18sp"
             android:padding="24dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_border"/>
 
         <Button
             android:text="@string/hard"
@@ -54,7 +55,9 @@
             android:id="@+id/button_hard"
             android:textSize="18sp"
             android:padding="24dp"
-            android:layout_marginBottom="8dp"/>
+            android:background="@drawable/button_border"
+            android:layout_marginBottom="16dp"
+            android:enabled="false"/>
 
         <Button
             android:text="@string/impossible"
@@ -64,7 +67,22 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:id="@+id/button_impossible"
-            android:padding="24dp"/>
+            android:background="@drawable/button_border"
+            android:padding="24dp"
+            android:layout_marginBottom="16dp"
+            android:enabled="false"/>
+
+        <Button
+            android:text="@string/the_impossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:id="@+id/button_the_impossible"
+            android:background="@drawable/button_border"
+            android:padding="24dp"
+            android:enabled="false"/>
     </LinearLayout>
 
 </LinearLayout>
