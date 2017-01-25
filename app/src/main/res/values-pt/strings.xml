@@ -86,7 +86,7 @@
     <string name="select_game_mode">Modo de Jogo</string>
     <string name="single_player">1 Jogador</string>
     <string name="multiplayer">2 Jogadores</string>
-    <string name="impossible">Impossível</string>
+    <string name="impossible">Loucura</string>
     <string name="select_difficulty">Dificuldade</string>
-    <string name="the_impossible">INSANO</string>
+    <string name="the_impossible">Impossível</string>
 </resources>

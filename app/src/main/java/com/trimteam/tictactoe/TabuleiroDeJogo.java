@@ -173,7 +173,7 @@ public class TabuleiroDeJogo extends View {
                 //toasAtual = Toast.makeText(getContext(), "Jogada Invalida", Toast.LENGTH_SHORT);
                 //toasAtual.show();
             } else {
-                 mp = MediaPlayer.create(actividade, R.raw.button_16);
+                mp = MediaPlayer.create(actividade, R.raw.button_16);
                 mp.start();
                 ultimaJogada = null;
                 tabuleiro = tabuleiro.realizaJogada(lin,col,1);
