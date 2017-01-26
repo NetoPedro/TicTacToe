@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rater = new Rater(getApplicationContext());
+        rater = new Rater(this.getBaseContext(),this);
         android.app.AlertDialog ad = rater.show();
-        if(ad!=null ) ad.show();
+        //if(ad!=null ) ad.show();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3410114126236036~1623476703");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         AdView mAdView = (AdView) findViewById(R.id.adView);

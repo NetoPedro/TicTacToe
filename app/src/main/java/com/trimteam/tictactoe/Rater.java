@@ -2,6 +2,7 @@ package com.trimteam.tictactoe;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +29,7 @@ public class Rater {
     private static  String DEFAULT_TEXT_LATER ;
     private static  String DEFAULT_TEXT_NEVER ;
     private static final int DEFAULT_DAYS_BEFORE_PROMPT = 0;
-    private static final int DEFAULT_LAUNCHES_BEFORE_PROMPT = 3;
+    private static final int DEFAULT_LAUNCHES_BEFORE_PROMPT = 2;
     private Context mContext;
     private String mPackageName;
     private int mDaysBeforePrompt;
@@ -44,13 +45,14 @@ public class Rater {
     private String mPreference_launchCount;
     private String mPreference_firstLaunch;
     private Intent mTargetIntent;
+    private Activity a;
 
     /**
      * Creates a new AppRater instance
      * @param context the Activity reference to use for this instance (usually the Activity you called this from)
      */
-    public Rater(final Context context) {
-        this(context, context.getPackageName());
+    public Rater(final Context context, Activity a) {
+        this(context, context.getPackageName(),a);
     }
 
     /**
@@ -58,7 +60,7 @@ public class Rater {
      * @param context the Activity reference to use for this instance (usually the Activity you called this from)
      * @param packageName your application's package name that will be used to open the ratings page
      */
-    public Rater(final Context context, final String packageName) {
+    public Rater(final Context context, final String packageName, Activity a) {
         if (context == null) {
             throw new RuntimeException("context may not be null");
         }
@@ -76,6 +78,8 @@ public class Rater {
         mPreference_dontShow = DEFAULT_PREFERENCE_DONT_SHOW;
         mPreference_launchCount = DEFAULT_PREFERENCE_LAUNCH_COUNT;
         mPreference_firstLaunch = DEFAULT_PREFERENCE_FIRST_LAUNCH;
+        this.a = a;
+
     }
 
     /**
@@ -210,25 +214,23 @@ public class Rater {
             firstLaunchTime = System.currentTimeMillis(); // set to current time
             editor.putLong(mPreference_firstLaunch, firstLaunchTime);
         }
-
+        AlertDialog ad = null;
         savePreferences(editor);
-
+        boolean a = false;
         if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
             if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
                 try {
-                    return showDialog(mContext, editor, firstLaunchTime);
+                    ad= showDialog(mContext, editor, firstLaunchTime);
+                    a  =true;
                 }
                 catch (Exception e) {
-                    return null;
+                    return ad;
                 }
             }
-            else {
-                return null;
-            }
         }
-        else {
-            return null;
-        }
+           // if (a) return showDialog(mContext, editor, firstLaunchTime);
+            return ad;
+
     }
 
     /**
@@ -292,7 +294,7 @@ public class Rater {
     }
 
     private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor, final long firstLaunchTime) {
-        final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
+        final AlertDialog.Builder rateDialog = new AlertDialog.Builder(getActivity());
         rateDialog.setTitle(mText_title);
         rateDialog.setMessage(mText_explanation);
         rateDialog.setNeutralButton(mText_buttonLater, new DialogInterface.OnClickListener() {
@@ -313,6 +315,11 @@ public class Rater {
                 buttonNeverClick(editor, dialog);
             }
         });
+
         return rateDialog.show();
+    }
+
+    private Activity getActivity(){
+        return a;
     }
 }
