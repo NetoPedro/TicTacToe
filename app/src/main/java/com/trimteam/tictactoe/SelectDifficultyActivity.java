@@ -27,6 +27,20 @@ public class SelectDifficultyActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.text_select_difficulty);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/zorque.ttf");
         title.setTypeface(typeface);
+
+        ImageView helpButton = (ImageView) findViewById(R.id.help_icon);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(SelectDifficultyActivity.this)
+                        .setTitle("Help")
+                        .setPositiveButton("OK",null);
+                dialog = builder.create();
+                dialog.setMessage("Choose a difficulty to play. To unlock the hardest levels, you have to win the previous one.");
+                dialog.show();
+            }
+        });
     }
 
     @Override
