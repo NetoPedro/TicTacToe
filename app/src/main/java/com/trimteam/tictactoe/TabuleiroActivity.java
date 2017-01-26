@@ -160,18 +160,23 @@ public class TabuleiroActivity extends AppCompatActivity {
         cpuPont++;
         cpuPontText.setText(""+cpuPont);
     }
-    public void increaseUserVic(){
+    public String increaseUserVic(){
         userPont++;
+        String retorno = "";
         userPontText.setText(""+
                 userPont);
         if(!multi && level == sharedPreferences.getInt("niveisPassados", 1) && level !=7){
             if (level == 1) {
                 sharedPreferences.edit().putInt("niveisPassados", level + 2).apply();
+                retorno = getString(R.string.hardLevelAchivement);
             }
             else{
                 sharedPreferences.edit().putInt("niveisPassados", level + 4).apply();
+                retorno = getString(R.string.insaneLevelAchivement);
+
             }
         }
+        return retorno;
 
     }
 

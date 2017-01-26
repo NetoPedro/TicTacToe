@@ -90,4 +90,6 @@
     <string name="select_difficulty">Difficulty</string>
     <string name="tictactoe">Tic Tac Toe</string>
     <string name="the_impossible">Impossible</string>
+    <string name="hardLevelAchivement">Hard Level Unlocked</string>
+    <string name="insaneLevelAchivement">Insane Level Unlocked</string>
 </resources>

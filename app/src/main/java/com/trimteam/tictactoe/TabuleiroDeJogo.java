@@ -236,7 +236,7 @@ public class TabuleiroDeJogo extends View {
                     message = getContext().getString(R.string.player2Win);}
                 else
                     message = getContext().getString(R.string.player1Win);
-                actividade.increaseUserVic();
+                  message += "\n" + actividade.increaseUserVic();
             }
             else {
                 if(!multi)
