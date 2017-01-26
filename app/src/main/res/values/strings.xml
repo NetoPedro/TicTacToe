@@ -67,10 +67,10 @@
     <string name="multiPlayer1">Player1:</string>
     <string name="multiPlayer2">Player2:</string>
     <string name="player1Win">Player 1 Won!</string>
-    <string name="player2Win">You Won! Congrats </string>
-    <string name="cpuWin">CPU Won! Try again ! </string>
+    <string name="player2Win">You Won! Congratulations!</string>
+    <string name="cpuWin">\"CPU Won. Try again! \"</string>
     <string name="playerWin">Player 2 Won!</string>
-    <string name="draw">Draw</string>
+    <string name="draw">It\'s a draw.</string>
     <string name="twoPlayersSummary">Two Players </string>
     <string name="twoPlayersTitle">Two Players</string>
     <string name="soundSummary">Sound On</string>
