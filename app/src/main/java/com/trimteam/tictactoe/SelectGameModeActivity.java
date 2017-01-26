@@ -28,6 +28,7 @@ public class SelectGameModeActivity extends AppCompatActivity {
                 i.putExtra("multi",true);
                 i.putExtra("level",1);
                 startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
             }
         });
         buttonSingle.setOnClickListener(new View.OnClickListener() {
@@ -36,11 +37,16 @@ public class SelectGameModeActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(),SelectDifficultyActivity.class);
                 i.putExtra("multi",false);
                 startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
 
             }
         });
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 }

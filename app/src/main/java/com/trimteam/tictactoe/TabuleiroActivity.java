@@ -185,4 +185,11 @@ public class TabuleiroActivity extends AppCompatActivity {
             imageView.setBackgroundColor(Color.parseColor("#ffffbb33"));
             imageView2.setBackgroundColor(Color.LTGRAY);}
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 }

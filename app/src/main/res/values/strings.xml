@@ -89,5 +89,5 @@
     <string name="impossible">Insane</string>
     <string name="select_difficulty">Difficulty</string>
     <string name="tictactoe">Tic Tac Toe</string>
-    <string name="the_impossible">INSANE</string>
+    <string name="the_impossible">Impossible</string>
 </resources>
