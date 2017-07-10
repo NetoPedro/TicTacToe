@@ -19,16 +19,24 @@ import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+import com.facebook.applinks.AppLinkData;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
+
+import bolts.AppLink;
+import bolts.AppLinks;
 
 public class MainActivity extends AppCompatActivity {
     public  boolean mIsBound = false;
@@ -74,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         rater = new Rater(this.getBaseContext(),this);
         android.app.AlertDialog ad = rater.show();
         //if(ad!=null ) ad.show();
+        inviteFriends();
+
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3410114126236036~1623476703");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -88,7 +98,36 @@ public class MainActivity extends AppCompatActivity {
         title.setTypeface(typeface);
 
     }
+    void inviteFriends(){
+        String appLinkUrl;
 
+        appLinkUrl = " https://fb.me/255637951601518";
+        FacebookSdk.setApplicationId("255635678268412");
+        FacebookSdk.sdkInitialize(this);
+        if (AppInviteDialog.canShow()) {
+            AppInviteContent content = new AppInviteContent.Builder()
+                    .setApplinkUrl(appLinkUrl)
+                    .build();
+            AppInviteDialog.show(this, content);
+        }
+
+
+
+        Uri targetUrl =
+                AppLinks.getTargetUrlFromInboundIntent(this, getIntent());
+        if (targetUrl != null) {
+            Log.i("Activity", "App Link Target URL: " + targetUrl.toString());
+        } else {
+            AppLinkData.fetchDeferredAppLinkData(
+                    this,
+                    new AppLinkData.CompletionHandler() {
+                        @Override
+                        public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+                            //process applink data
+                        }
+                    });
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
